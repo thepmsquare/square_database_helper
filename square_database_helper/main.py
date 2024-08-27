@@ -4,21 +4,21 @@ import requests
 class SquareDatabaseHelper:
     def __init__(
             self,
-            param_int_lapa_database_port: str = 10010,
-            param_str_lapa_database_ip: str = "localhost",
-            param_str_lapa_database_protocol: int = "http",
+            param_int_square_database_port: str = 10010,
+            param_str_square_database_ip: str = "localhost",
+            param_str_square_database_protocol: int = "http",
     ):
         try:
-            self.global_str_lapa_database_url_base = (
-                f"{param_str_lapa_database_protocol}://"
-                f"{param_str_lapa_database_ip}:{param_int_lapa_database_port}"
+            self.global_str_square_database_url_base = (
+                f"{param_str_square_database_protocol}://"
+                f"{param_str_square_database_ip}:{param_int_square_database_port}"
             )
         except Exception:
             raise
 
     def _make_request(self, method, endpoint, data=None):
         try:
-            url = f"{self.global_str_lapa_database_url_base}/{endpoint}"
+            url = f"{self.global_str_square_database_url_base}/{endpoint}"
             response = requests.request(method, url, json=data)
             response.raise_for_status()
             return response.json()

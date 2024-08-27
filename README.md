@@ -7,7 +7,7 @@ helper to access the database layer for my personal server.
 ## installation
 
 ```shell
-pip install lapa_database_helper
+pip install square_database_helper
 ```
 
 ## usage
