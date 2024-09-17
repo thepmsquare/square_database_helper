@@ -47,7 +47,12 @@ class SquareDatabaseHelper:
             schema_name: str,
             table_name: str,
             ignore_filters_and_get_all: bool = False,
+            order_by=None,
+            limit: int = None,
+            offset: int = 0,
     ):
+        if order_by is None:
+            order_by = []
         try:
             endpoint = "get_rows"
             payload = {
@@ -56,6 +61,9 @@ class SquareDatabaseHelper:
                 "schema_name": schema_name,
                 "table_name": table_name,
                 "ignore_filters_and_get_all": ignore_filters_and_get_all,
+                "order_by": order_by,
+                "limit": limit,
+                "offset": offset,
             }
             return self._make_request("POST", endpoint, payload)
         except Exception:
