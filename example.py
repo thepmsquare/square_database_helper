@@ -14,11 +14,7 @@ print(insert_output)
 # Example: Get Rows
 get_filters = {}
 get_output = square_database_helper.get_rows(
-    get_filters,
-    "square",
-    "public",
-    "test",
-    ignore_filters_and_get_all=True,
+    get_filters, "square", "public", "test", ignore_filters_and_get_all=True, limit=1
 )
 print(get_output)
 
