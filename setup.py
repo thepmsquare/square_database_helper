@@ -4,7 +4,7 @@ package_name = "square_database_helper"
 
 setup(
     name=package_name,
-    version="1.0.1",
+    version="1.0.2",
     packages=find_packages(),
     install_requires=["requests>=2.31.0"],
     author="thePmSquare",
