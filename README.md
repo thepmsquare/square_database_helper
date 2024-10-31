@@ -20,6 +20,13 @@ pip install square_database_helper
 
 ## changelog
 
+### v2.1.0
+
+- compatible with v2.1.0 of square database.
+- stricter type checking.
+- added pydantic as a requirement.
+- filters now passed in as a pydantic model instead of direct dictionary.
+
 ### v2.0.0
 
 - added version numbers for all endpoints for better compatibility.

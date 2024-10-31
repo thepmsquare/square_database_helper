@@ -1,4 +1,9 @@
+from typing import Dict, Any, Optional, List
+
 import requests
+from pydantic import conlist
+
+from square_database_helper.pydantic_models import FiltersV0
 
 
 class SquareDatabaseHelper:
@@ -26,7 +31,11 @@ class SquareDatabaseHelper:
             raise
 
     def insert_rows_v0(
-        self, data: list[dict], database_name: str, schema_name: str, table_name: str
+        self,
+        data: conlist(Dict[str, Any], min_length=1),
+        database_name: str,
+        schema_name: str,
+        table_name: str,
     ):
         try:
             endpoint = "insert_rows/v0"
@@ -42,13 +51,14 @@ class SquareDatabaseHelper:
 
     def get_rows_v0(
         self,
-        filters: dict,
+        filters: FiltersV0,
         database_name: str,
         schema_name: str,
         table_name: str,
-        ignore_filters_and_get_all: bool = False,
-        order_by=None,
-        limit: int = None,
+        apply_filters: bool = True,
+        columns: Optional[List[str]] = None,
+        order_by: List[str] = None,
+        limit: Optional[int] = None,
         offset: int = 0,
     ):
         if order_by is None:
@@ -56,11 +66,12 @@ class SquareDatabaseHelper:
         try:
             endpoint = "get_rows/v0"
             payload = {
-                "filters": filters,
                 "database_name": database_name,
                 "schema_name": schema_name,
                 "table_name": table_name,
-                "ignore_filters_and_get_all": ignore_filters_and_get_all,
+                "filters": filters.model_dump(),
+                "apply_filters": apply_filters,
+                "columns": columns,
                 "order_by": order_by,
                 "limit": limit,
                 "offset": offset,
@@ -71,22 +82,22 @@ class SquareDatabaseHelper:
 
     def edit_rows_v0(
         self,
-        data: dict,
-        filters: dict,
+        data: Dict[str, Any],
+        filters: FiltersV0,
         database_name: str,
         schema_name: str,
         table_name: str,
-        ignore_filters_and_edit_all: bool = False,
+        apply_filters: bool = True,
     ):
         try:
             endpoint = "edit_rows/v0"
             payload = {
                 "data": data,
-                "filters": filters,
+                "filters": filters.model_dump(),
                 "database_name": database_name,
                 "schema_name": schema_name,
                 "table_name": table_name,
-                "ignore_filters_and_edit_all": ignore_filters_and_edit_all,
+                "apply_filters": apply_filters,
             }
             return self._make_request("PUT", endpoint, payload)
         except Exception:
@@ -94,20 +105,20 @@ class SquareDatabaseHelper:
 
     def delete_rows_v0(
         self,
-        filters: dict,
+        filters: FiltersV0,
         database_name: str,
         schema_name: str,
         table_name: str,
-        ignore_filters_and_delete_all: bool = False,
+        apply_filters: bool = True,
     ):
         try:
             endpoint = "delete_rows/v0"
             payload = {
-                "filters": filters,
+                "filters": filters.model_dump(),
                 "database_name": database_name,
                 "schema_name": schema_name,
                 "table_name": table_name,
-                "ignore_filters_and_delete_all": ignore_filters_and_delete_all,
+                "apply_filters": apply_filters,
             }
             return self._make_request("DELETE", endpoint, payload)
         except Exception:
