@@ -4,7 +4,7 @@ package_name = "square_database_helper"
 
 setup(
     name=package_name,
-    version="2.1.0",
+    version="2.1.1",
     packages=find_packages(),
     install_requires=["requests>=2.31.0", "pydantic>=2.9.2"],
     author="thePmSquare",

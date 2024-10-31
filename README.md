@@ -20,6 +20,10 @@ pip install square_database_helper
 
 ## changelog
 
+### v2.1.1
+
+- edit_rows_v0 now uses patch method.
+
 ### v2.1.0
 
 - compatible with v2.1.0 of square database.

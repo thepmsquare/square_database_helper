@@ -99,7 +99,7 @@ class SquareDatabaseHelper:
                 "table_name": table_name,
                 "apply_filters": apply_filters,
             }
-            return self._make_request("PUT", endpoint, payload)
+            return self._make_request("PATCH", endpoint, payload)
         except Exception:
             raise
 
