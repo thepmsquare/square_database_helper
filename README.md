@@ -20,6 +20,10 @@ pip install square_database_helper
 
 ## changelog
 
+### v2.0.0
+
+- added version numbers for all endpoints for better compatibility.
+
 ### v1.0.2
 
 - add offset, limit and order by in get rows.
