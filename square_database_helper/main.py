@@ -3,10 +3,10 @@ import requests
 
 class SquareDatabaseHelper:
     def __init__(
-            self,
-            param_int_square_database_port: str = 10010,
-            param_str_square_database_ip: str = "localhost",
-            param_str_square_database_protocol: int = "http",
+        self,
+        param_int_square_database_port: str = 10010,
+        param_str_square_database_ip: str = "localhost",
+        param_str_square_database_protocol: int = "http",
     ):
         try:
             self.global_str_square_database_url_base = (
@@ -25,11 +25,11 @@ class SquareDatabaseHelper:
         except Exception:
             raise
 
-    def insert_rows(
-            self, data: list[dict], database_name: str, schema_name: str, table_name: str
+    def insert_rows_v0(
+        self, data: list[dict], database_name: str, schema_name: str, table_name: str
     ):
         try:
-            endpoint = "insert_rows"
+            endpoint = "insert_rows/v0"
             payload = {
                 "data": data,
                 "database_name": database_name,
@@ -40,21 +40,21 @@ class SquareDatabaseHelper:
         except Exception:
             raise
 
-    def get_rows(
-            self,
-            filters: dict,
-            database_name: str,
-            schema_name: str,
-            table_name: str,
-            ignore_filters_and_get_all: bool = False,
-            order_by=None,
-            limit: int = None,
-            offset: int = 0,
+    def get_rows_v0(
+        self,
+        filters: dict,
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        ignore_filters_and_get_all: bool = False,
+        order_by=None,
+        limit: int = None,
+        offset: int = 0,
     ):
         if order_by is None:
             order_by = []
         try:
-            endpoint = "get_rows"
+            endpoint = "get_rows/v0"
             payload = {
                 "filters": filters,
                 "database_name": database_name,
@@ -69,17 +69,17 @@ class SquareDatabaseHelper:
         except Exception:
             raise
 
-    def edit_rows(
-            self,
-            data: dict,
-            filters: dict,
-            database_name: str,
-            schema_name: str,
-            table_name: str,
-            ignore_filters_and_edit_all: bool = False,
+    def edit_rows_v0(
+        self,
+        data: dict,
+        filters: dict,
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        ignore_filters_and_edit_all: bool = False,
     ):
         try:
-            endpoint = "edit_rows"
+            endpoint = "edit_rows/v0"
             payload = {
                 "data": data,
                 "filters": filters,
@@ -92,16 +92,16 @@ class SquareDatabaseHelper:
         except Exception:
             raise
 
-    def delete_rows(
-            self,
-            filters: dict,
-            database_name: str,
-            schema_name: str,
-            table_name: str,
-            ignore_filters_and_delete_all: bool = False,
+    def delete_rows_v0(
+        self,
+        filters: dict,
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        ignore_filters_and_delete_all: bool = False,
     ):
         try:
-            endpoint = "delete_rows"
+            endpoint = "delete_rows/v0"
             payload = {
                 "filters": filters,
                 "database_name": database_name,
