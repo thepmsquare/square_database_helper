@@ -9,9 +9,9 @@ from square_database_helper.pydantic_models import FiltersV0
 class SquareDatabaseHelper:
     def __init__(
         self,
-        param_int_square_database_port: str = 10010,
+        param_int_square_database_port: int = 10010,
         param_str_square_database_ip: str = "localhost",
-        param_str_square_database_protocol: int = "http",
+        param_str_square_database_protocol: str = "http",
     ):
         try:
             self.global_str_square_database_url_base = (
