@@ -16,7 +16,7 @@ insert_output = square_database_helper.insert_rows_v0(
 print(insert_output)
 
 # Example: Get Rows
-get_filters = FiltersV0({"test_text": FilterConditionsV0(eq="example")})
+get_filters = FiltersV0({"test_text": FilterConditionsV0(like="exam%")})
 get_output = square_database_helper.get_rows_v0(
     database_name="square",
     schema_name="public",

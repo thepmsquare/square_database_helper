@@ -20,6 +20,10 @@ pip install square_database_helper
 
 ## changelog
 
+### v2.2.0
+
+- expanded apply_filters to support additional conditions: ne, lt, lte, gt, gte, like, in_.
+
 ### v2.1.1
 
 - edit_rows_v0 now uses patch method.
