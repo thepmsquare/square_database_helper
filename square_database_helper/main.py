@@ -1,7 +1,7 @@
 from typing import Dict, Any, Optional, List
 
-import requests
 from pydantic import conlist
+from square_commons.api_utils import make_request_json_output
 
 from square_database_helper.pydantic_models import FiltersV0
 
@@ -21,12 +21,16 @@ class SquareDatabaseHelper:
         except Exception:
             raise
 
-    def _make_request(self, method, endpoint, data=None):
+    def _make_request(self, method, endpoint, data=None, params=None, headers=None):
         try:
-            url = f"{self.global_str_square_database_url_base}/{endpoint}"
-            response = requests.request(method, url, json=data)
-            response.raise_for_status()
-            return response.json()
+            return make_request_json_output(
+                method=method,
+                base_url=self.global_str_square_database_url_base,
+                endpoint=endpoint,
+                data=data,
+                params=params,
+                headers=headers,
+            )
         except Exception:
             raise
 

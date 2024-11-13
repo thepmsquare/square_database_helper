@@ -4,9 +4,12 @@ package_name = "square_database_helper"
 
 setup(
     name=package_name,
-    version="2.2.0",
+    version="2.3.0",
     packages=find_packages(),
-    install_requires=["requests>=2.31.0", "pydantic>=2.9.2"],
+    install_requires=[
+        "pydantic>=2.9.2",
+        "square_commons>=1.0.0",
+    ],
     author="thePmSquare",
     author_email="thepmsquare@gmail.com",
     description="helper to access the database layer for my personal server.",

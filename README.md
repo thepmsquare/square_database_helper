@@ -20,6 +20,10 @@ pip install square_database_helper
 
 ## changelog
 
+### v2.3.0
+
+- use make_request_json_output to call api endpoints.
+
 ### v2.2.0
 
 - expanded apply_filters to support additional conditions: ne, lt, lte, gt, gte, like, in_.
