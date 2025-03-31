@@ -20,6 +20,10 @@ pip install square_database_helper
 
 ## changelog
 
+### v2.3.1
+
+- bump square_commons to >=2.0.0.
+
 ### v2.3.0
 
 - use make_request_json_output to call api endpoints.

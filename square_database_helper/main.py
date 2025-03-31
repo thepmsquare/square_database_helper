@@ -21,12 +21,15 @@ class SquareDatabaseHelper:
         except Exception:
             raise
 
-    def _make_request(self, method, endpoint, data=None, params=None, headers=None):
+    def _make_request(
+        self, method, endpoint, json=None, data=None, params=None, headers=None
+    ):
         try:
             return make_request_json_output(
                 method=method,
                 base_url=self.global_str_square_database_url_base,
                 endpoint=endpoint,
+                json=json,
                 data=data,
                 params=params,
                 headers=headers,
@@ -49,7 +52,7 @@ class SquareDatabaseHelper:
                 "schema_name": schema_name,
                 "table_name": table_name,
             }
-            return self._make_request("POST", endpoint, payload)
+            return self._make_request("POST", endpoint, json=payload)
         except Exception:
             raise
 
@@ -80,7 +83,7 @@ class SquareDatabaseHelper:
                 "limit": limit,
                 "offset": offset,
             }
-            return self._make_request("POST", endpoint, payload)
+            return self._make_request("POST", endpoint, json=payload)
         except Exception:
             raise
 
@@ -103,7 +106,7 @@ class SquareDatabaseHelper:
                 "table_name": table_name,
                 "apply_filters": apply_filters,
             }
-            return self._make_request("PATCH", endpoint, payload)
+            return self._make_request("PATCH", endpoint, json=payload)
         except Exception:
             raise
 
@@ -124,6 +127,6 @@ class SquareDatabaseHelper:
                 "table_name": table_name,
                 "apply_filters": apply_filters,
             }
-            return self._make_request("DELETE", endpoint, payload)
+            return self._make_request("DELETE", endpoint, json=payload)
         except Exception:
             raise
