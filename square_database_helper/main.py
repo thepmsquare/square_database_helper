@@ -127,6 +127,6 @@ class SquareDatabaseHelper:
                 "table_name": table_name,
                 "apply_filters": apply_filters,
             }
-            return self._make_request("DELETE", endpoint, json=payload)
+            return self._make_request("POST", endpoint, json=payload)
         except Exception:
             raise
