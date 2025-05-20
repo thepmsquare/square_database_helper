@@ -20,6 +20,10 @@ pip install square_database_helper
 
 ## changelog
 
+### v2.5.0
+
+- update compatibility with square_database>=3.1.0.
+
 ### v2.4.0
 
 - update compatibility with square_database>=3.0.0.

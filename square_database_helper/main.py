@@ -43,6 +43,7 @@ class SquareDatabaseHelper:
         database_name: str,
         schema_name: str,
         table_name: str,
+        skip_conflicts: bool = False,
     ):
         try:
             endpoint = "insert_rows/v0"
@@ -51,6 +52,7 @@ class SquareDatabaseHelper:
                 "database_name": database_name,
                 "schema_name": schema_name,
                 "table_name": table_name,
+                "skip_conflicts": skip_conflicts,
             }
             return self._make_request("POST", endpoint, json=payload)
         except Exception:
