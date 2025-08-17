@@ -16,7 +16,7 @@ insert_output = square_database_helper.insert_rows_v0(
 print(insert_output)
 
 # Example: Get Rows
-get_filters = FiltersV0({"test_text": FilterConditionsV0(like="exam%")})
+get_filters = FiltersV0(root={"test_text": FilterConditionsV0(like="exam%")})
 get_output = square_database_helper.get_rows_v0(
     database_name="square",
     schema_name="public",
@@ -26,7 +26,7 @@ get_output = square_database_helper.get_rows_v0(
 print(get_output)
 
 # Example: Edit Rows
-edit_filters = FiltersV0({"test_text": FilterConditionsV0(eq="example")})
+edit_filters = FiltersV0(root={"test_text": FilterConditionsV0(eq="example")})
 edit_data = {"test_text": "edited"}
 edit_output = square_database_helper.edit_rows_v0(
     database_name="square",
@@ -38,7 +38,7 @@ edit_output = square_database_helper.edit_rows_v0(
 print(edit_output)
 
 # Example: Delete Rows
-delete_filters = FiltersV0({"test_text": FilterConditionsV0(eq="edited")})
+delete_filters = FiltersV0(root={"test_text": FilterConditionsV0(eq="edited")})
 delete_output = square_database_helper.delete_rows_v0(
     database_name="square",
     schema_name="public",
