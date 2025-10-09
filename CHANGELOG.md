@@ -1,5 +1,9 @@
 # changelog
 
+## v2.6.2
+
+- remove setup.py and switch to pyproject.toml
+
 ## v2.6.1
 
 - docs
