@@ -7,8 +7,10 @@ def test_init_sets_base_url_correctly(helper: SquareDatabaseHelper):
     assert helper.global_str_square_database_url_base == "https://127.0.0.1:1234"
 
 
-@patch("square_database_helper.main.make_request_json_output")
-def test_make_request_forwards_arguments(mock_make_request, helper: SquareDatabaseHelper):
+@patch("square_database_helper.main.make_request")
+def test_make_request_forwards_arguments(
+    mock_make_request, helper: SquareDatabaseHelper
+):
     expected_result = {"ok": True}
     mock_make_request.return_value = expected_result
 
@@ -33,8 +35,10 @@ def test_make_request_forwards_arguments(mock_make_request, helper: SquareDataba
     )
 
 
-@patch("square_database_helper.main.make_request_json_output")
-def test_insert_rows_v0_builds_correct_payload(mock_make_request, helper: SquareDatabaseHelper):
+@patch("square_database_helper.main.make_request")
+def test_insert_rows_v0_builds_correct_payload(
+    mock_make_request, helper: SquareDatabaseHelper
+):
     mock_make_request.return_value = {"inserted": 2}
 
     data = [
@@ -67,7 +71,7 @@ def test_insert_rows_v0_builds_correct_payload(mock_make_request, helper: Square
     assert payload["skip_conflicts"] is True
 
 
-@patch("square_database_helper.main.make_request_json_output")
+@patch("square_database_helper.main.make_request")
 def test_get_rows_v0_defaults_and_payload(mock_make_request, helper, dummy_filters):
     mock_make_request.return_value = {"rows": []}
 
@@ -93,12 +97,12 @@ def test_get_rows_v0_defaults_and_payload(mock_make_request, helper, dummy_filte
     assert payload["filters"] == {"some": "filter", "another": 123}
     assert payload["apply_filters"] is True
     assert payload["columns"] is None
-    assert payload["order_by"] == []          # default applied
+    assert payload["order_by"] == []  # default applied
     assert payload["limit"] is None
-    assert payload["offset"] == 0             # default applied
+    assert payload["offset"] == 0  # default applied
 
 
-@patch("square_database_helper.main.make_request_json_output")
+@patch("square_database_helper.main.make_request")
 def test_get_rows_v0_with_all_arguments(mock_make_request, helper, dummy_filters):
     mock_make_request.return_value = {"rows": [{"id": 1}]}
 
@@ -125,7 +129,7 @@ def test_get_rows_v0_with_all_arguments(mock_make_request, helper, dummy_filters
     assert payload["offset"] == 5
 
 
-@patch("square_database_helper.main.make_request_json_output")
+@patch("square_database_helper.main.make_request")
 def test_edit_rows_v0_builds_correct_payload(mock_make_request, helper, dummy_filters):
     mock_make_request.return_value = {"updated": 3}
 
@@ -157,8 +161,10 @@ def test_edit_rows_v0_builds_correct_payload(mock_make_request, helper, dummy_fi
     assert payload["apply_filters"] is True
 
 
-@patch("square_database_helper.main.make_request_json_output")
-def test_delete_rows_v0_builds_correct_payload(mock_make_request, helper, dummy_filters):
+@patch("square_database_helper.main.make_request")
+def test_delete_rows_v0_builds_correct_payload(
+    mock_make_request, helper, dummy_filters
+):
     mock_make_request.return_value = {"deleted": 1}
 
     result = helper.delete_rows_v0(

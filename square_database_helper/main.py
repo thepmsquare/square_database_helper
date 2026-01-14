@@ -1,9 +1,15 @@
 from typing import Dict, Any, Optional, List
 
 from pydantic import conlist
-from square_commons.api_utils import make_request_json_output
+from square_commons.api_utils import make_request
 
-from square_database_helper.pydantic_models import FiltersV0
+from square_database_helper.pydantic_models import (
+    FiltersV0,
+    InsertRowsV0Response,
+    GetRowsV0Response,
+    EditRowsV0Response,
+    DeleteRowsV0Response,
+)
 
 
 class SquareDatabaseHelper:
@@ -25,14 +31,15 @@ class SquareDatabaseHelper:
         self, method, endpoint, json=None, data=None, params=None, headers=None
     ):
         try:
-            return make_request_json_output(
+            return make_request(
                 method=method,
-                base_url=self.global_str_square_database_url_base,
+                url=self.global_str_square_database_url_base,
                 endpoint=endpoint,
                 json=json,
                 data=data,
                 params=params,
                 headers=headers,
+                return_type="json",
             )
         except Exception:
             raise
@@ -44,7 +51,7 @@ class SquareDatabaseHelper:
         schema_name: str,
         table_name: str,
         skip_conflicts: bool = False,
-    ):
+    ) -> InsertRowsV0Response:
         try:
             endpoint = "insert_rows/v0"
             payload = {
@@ -54,7 +61,9 @@ class SquareDatabaseHelper:
                 "table_name": table_name,
                 "skip_conflicts": skip_conflicts,
             }
-            return self._make_request("POST", endpoint, json=payload)
+            return InsertRowsV0Response(
+                **self._make_request("POST", endpoint, json=payload)
+            )
         except Exception:
             raise
 
@@ -69,7 +78,7 @@ class SquareDatabaseHelper:
         order_by: List[str] = None,
         limit: Optional[int] = None,
         offset: int = 0,
-    ):
+    ) -> GetRowsV0Response:
         if order_by is None:
             order_by = []
         try:
@@ -85,7 +94,9 @@ class SquareDatabaseHelper:
                 "limit": limit,
                 "offset": offset,
             }
-            return self._make_request("POST", endpoint, json=payload)
+            return GetRowsV0Response(
+                **self._make_request("POST", endpoint, json=payload)
+            )
         except Exception:
             raise
 
@@ -97,7 +108,7 @@ class SquareDatabaseHelper:
         schema_name: str,
         table_name: str,
         apply_filters: bool = True,
-    ):
+    ) -> EditRowsV0Response:
         try:
             endpoint = "edit_rows/v0"
             payload = {
@@ -108,7 +119,9 @@ class SquareDatabaseHelper:
                 "table_name": table_name,
                 "apply_filters": apply_filters,
             }
-            return self._make_request("PATCH", endpoint, json=payload)
+            return EditRowsV0Response(
+                **self._make_request("PATCH", endpoint, json=payload)
+            )
         except Exception:
             raise
 
@@ -119,7 +132,7 @@ class SquareDatabaseHelper:
         schema_name: str,
         table_name: str,
         apply_filters: bool = True,
-    ):
+    ) -> DeleteRowsV0Response:
         try:
             endpoint = "delete_rows/v0"
             payload = {
@@ -129,6 +142,8 @@ class SquareDatabaseHelper:
                 "table_name": table_name,
                 "apply_filters": apply_filters,
             }
-            return self._make_request("POST", endpoint, json=payload)
+            return DeleteRowsV0Response(
+                **self._make_request("POST", endpoint, json=payload)
+            )
         except Exception:
             raise

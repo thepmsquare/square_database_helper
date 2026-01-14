@@ -17,3 +17,23 @@ class FilterConditionsV0(BaseModel):
 
 class FiltersV0(RootModel):
     root: Dict[str, FilterConditionsV0]
+
+
+class InsertRowsV0Response(BaseModel):
+    main: List[Dict[str, Any]]
+    affected_count: int
+
+
+class GetRowsV0Response(BaseModel):
+    main: List[Dict[str, Any]]
+    total_count: int
+
+
+class EditRowsV0Response(BaseModel):
+    main: List[Dict[str, Any]]
+    affected_count: int
+
+
+class DeleteRowsV0Response(BaseModel):
+    main: List[Dict[str, Any]]
+    affected_count: int

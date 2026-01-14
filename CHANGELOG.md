@@ -1,5 +1,10 @@
 # changelog
 
+## v3.0.0 (in progress)
+
+- **breaking change**: return pydantic models instead of dict in all api helpers.
+- migrate from make_request_json_output to make_request from square_helper.
+
 ## v2.6.4
 
 - add unit tests.
