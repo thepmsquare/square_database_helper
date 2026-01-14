@@ -1,5 +1,11 @@
 from unittest.mock import patch
 
+from square_database_helper import (
+    InsertRowsV0Response,
+    GetRowsV0Response,
+    EditRowsV0Response,
+    DeleteRowsV0Response,
+)
 from square_database_helper.main import SquareDatabaseHelper
 
 
@@ -26,12 +32,13 @@ def test_make_request_forwards_arguments(
     assert result == expected_result
     mock_make_request.assert_called_once_with(
         method="GET",
-        base_url="https://127.0.0.1:1234",
+        url="https://127.0.0.1:1234",
         endpoint="health",
         json={"a": 1},
         data={"b": 2},
         params={"q": "x"},
         headers={"Authorization": "token"},
+        return_type="json",
     )
 
 
@@ -39,12 +46,14 @@ def test_make_request_forwards_arguments(
 def test_insert_rows_v0_builds_correct_payload(
     mock_make_request, helper: SquareDatabaseHelper
 ):
-    mock_make_request.return_value = {"inserted": 2}
-
     data = [
         {"id": 1, "name": "alpha"},
         {"id": 2, "name": "beta"},
     ]
+    mock_make_request.return_value = {
+        "affected_count": 2,
+        "main": data,
+    }
 
     result = helper.insert_rows_v0(
         data=data,
@@ -52,15 +61,18 @@ def test_insert_rows_v0_builds_correct_payload(
         schema_name="public",
         table_name="users",
         skip_conflicts=True,
+        response_as_pydantic=True,
     )
 
-    assert result == {"inserted": 2}
+    assert isinstance(result, InsertRowsV0Response)
+    assert result.affected_count == 2
+    assert result.main == data
 
     mock_make_request.assert_called_once()
     call_kwargs = mock_make_request.call_args.kwargs
 
     assert call_kwargs["method"] == "POST"
-    assert call_kwargs["base_url"] == "https://127.0.0.1:1234"
+    assert call_kwargs["url"] == "https://127.0.0.1:1234"
     assert call_kwargs["endpoint"] == "insert_rows/v0"
 
     payload = call_kwargs["json"]
@@ -73,16 +85,19 @@ def test_insert_rows_v0_builds_correct_payload(
 
 @patch("square_database_helper.main.make_request")
 def test_get_rows_v0_defaults_and_payload(mock_make_request, helper, dummy_filters):
-    mock_make_request.return_value = {"rows": []}
+    mock_make_request.return_value = {"main": [], "total_count": 0}
 
     result = helper.get_rows_v0(
         filters=dummy_filters,
         database_name="db_main",
         schema_name="public",
         table_name="users",
+        response_as_pydantic=True,
     )
 
-    assert result == {"rows": []}
+    assert isinstance(result, GetRowsV0Response)
+    assert result.total_count == 0
+    assert result.main == []
 
     mock_make_request.assert_called_once()
     call_kwargs = mock_make_request.call_args.kwargs
@@ -104,7 +119,8 @@ def test_get_rows_v0_defaults_and_payload(mock_make_request, helper, dummy_filte
 
 @patch("square_database_helper.main.make_request")
 def test_get_rows_v0_with_all_arguments(mock_make_request, helper, dummy_filters):
-    mock_make_request.return_value = {"rows": [{"id": 1}]}
+    data = [{"id": 1}]
+    mock_make_request.return_value = {"main": data, "total_count": 1}
 
     result = helper.get_rows_v0(
         filters=dummy_filters,
@@ -116,9 +132,12 @@ def test_get_rows_v0_with_all_arguments(mock_make_request, helper, dummy_filters
         order_by=["id DESC"],
         limit=10,
         offset=5,
+        response_as_pydantic=True,
     )
 
-    assert result == {"rows": [{"id": 1}]}
+    assert isinstance(result, GetRowsV0Response)
+    assert result.total_count == 1
+    assert result.main == data
     mock_make_request.assert_called_once()
     payload = mock_make_request.call_args.kwargs["json"]
 
@@ -131,9 +150,8 @@ def test_get_rows_v0_with_all_arguments(mock_make_request, helper, dummy_filters
 
 @patch("square_database_helper.main.make_request")
 def test_edit_rows_v0_builds_correct_payload(mock_make_request, helper, dummy_filters):
-    mock_make_request.return_value = {"updated": 3}
-
     data = {"name": "updated name"}
+    mock_make_request.return_value = {"affected_count": 1, "main": [data]}
 
     result = helper.edit_rows_v0(
         data=data,
@@ -142,9 +160,12 @@ def test_edit_rows_v0_builds_correct_payload(mock_make_request, helper, dummy_fi
         schema_name="public",
         table_name="users",
         apply_filters=True,
+        response_as_pydantic=True,
     )
 
-    assert result == {"updated": 3}
+    assert isinstance(result, EditRowsV0Response)
+    assert result.affected_count == 1
+    assert result.main == [data]
 
     mock_make_request.assert_called_once()
     call_kwargs = mock_make_request.call_args.kwargs
@@ -165,7 +186,8 @@ def test_edit_rows_v0_builds_correct_payload(mock_make_request, helper, dummy_fi
 def test_delete_rows_v0_builds_correct_payload(
     mock_make_request, helper, dummy_filters
 ):
-    mock_make_request.return_value = {"deleted": 1}
+    data = [{"id": 1}]
+    mock_make_request.return_value = {"affected_count": 1, "main": data}
 
     result = helper.delete_rows_v0(
         filters=dummy_filters,
@@ -173,9 +195,12 @@ def test_delete_rows_v0_builds_correct_payload(
         schema_name="public",
         table_name="users",
         apply_filters=False,
+        response_as_pydantic=True,
     )
 
-    assert result == {"deleted": 1}
+    assert isinstance(result, DeleteRowsV0Response)
+    assert result.affected_count == 1
+    assert result.main == data
 
     mock_make_request.assert_called_once()
     call_kwargs = mock_make_request.call_args.kwargs

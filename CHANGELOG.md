@@ -1,9 +1,11 @@
 # changelog
 
-## v3.0.0 (in progress)
+## v2.7.0
 
-- **breaking change**: return pydantic models instead of dict in all api helpers.
+- Add response pydantic models for all helper methods.
+- return pydantic models instead of dict in all api helpers if response_as_pydantic=True.
 - migrate from make_request_json_output to make_request from square_helper.
+- update test cases.
 
 ## v2.6.4
 

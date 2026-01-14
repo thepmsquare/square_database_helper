@@ -449,7 +449,7 @@ wheels = [
 
 [[package]]
 name = "square-database-helper"
-version = "2.6.4"
+version = "2.7.0"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
