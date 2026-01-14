@@ -51,6 +51,7 @@ class SquareDatabaseHelper:
         schema_name: str,
         table_name: str,
         skip_conflicts: bool = False,
+        response_as_pydantic: bool = False,
     ) -> InsertRowsV0Response:
         try:
             endpoint = "insert_rows/v0"
@@ -61,9 +62,11 @@ class SquareDatabaseHelper:
                 "table_name": table_name,
                 "skip_conflicts": skip_conflicts,
             }
-            return InsertRowsV0Response(
-                **self._make_request("POST", endpoint, json=payload)
-            )
+            response = self._make_request("POST", endpoint, json=payload)
+            if response_as_pydantic:
+                return InsertRowsV0Response(**response)
+            else:
+                return response
         except Exception:
             raise
 
@@ -78,6 +81,7 @@ class SquareDatabaseHelper:
         order_by: List[str] = None,
         limit: Optional[int] = None,
         offset: int = 0,
+        response_as_pydantic: bool = False,
     ) -> GetRowsV0Response:
         if order_by is None:
             order_by = []
@@ -94,9 +98,11 @@ class SquareDatabaseHelper:
                 "limit": limit,
                 "offset": offset,
             }
-            return GetRowsV0Response(
-                **self._make_request("POST", endpoint, json=payload)
-            )
+            response = self._make_request("POST", endpoint, json=payload)
+            if response_as_pydantic:
+                return GetRowsV0Response(**response)
+            else:
+                return response
         except Exception:
             raise
 
@@ -108,6 +114,7 @@ class SquareDatabaseHelper:
         schema_name: str,
         table_name: str,
         apply_filters: bool = True,
+        response_as_pydantic: bool = False,
     ) -> EditRowsV0Response:
         try:
             endpoint = "edit_rows/v0"
@@ -119,9 +126,11 @@ class SquareDatabaseHelper:
                 "table_name": table_name,
                 "apply_filters": apply_filters,
             }
-            return EditRowsV0Response(
-                **self._make_request("PATCH", endpoint, json=payload)
-            )
+            response = self._make_request("PATCH", endpoint, json=payload)
+            if response_as_pydantic:
+                return EditRowsV0Response(**response)
+            else:
+                return response
         except Exception:
             raise
 
@@ -132,6 +141,7 @@ class SquareDatabaseHelper:
         schema_name: str,
         table_name: str,
         apply_filters: bool = True,
+        response_as_pydantic: bool = False,
     ) -> DeleteRowsV0Response:
         try:
             endpoint = "delete_rows/v0"
@@ -142,8 +152,10 @@ class SquareDatabaseHelper:
                 "table_name": table_name,
                 "apply_filters": apply_filters,
             }
-            return DeleteRowsV0Response(
-                **self._make_request("POST", endpoint, json=payload)
-            )
+            response = self._make_request("POST", endpoint, json=payload)
+            if response_as_pydantic:
+                return DeleteRowsV0Response(**response)
+            else:
+                return response
         except Exception:
             raise
