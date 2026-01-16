@@ -1,7 +1,7 @@
 from typing import Dict, Any, Optional, List
 
 from pydantic import conlist
-from square_commons.api_utils import make_request
+from square_commons.api_utils import make_request, StandardResponse
 
 from square_database_helper.pydantic_models import (
     FiltersV0,
@@ -64,7 +64,7 @@ class SquareDatabaseHelper:
             }
             response = self._make_request("POST", endpoint, json=payload)
             if response_as_pydantic:
-                return InsertRowsV0Response(**response)
+                return StandardResponse[InsertRowsV0Response](**response)
             else:
                 return response
         except Exception:
@@ -100,7 +100,7 @@ class SquareDatabaseHelper:
             }
             response = self._make_request("POST", endpoint, json=payload)
             if response_as_pydantic:
-                return GetRowsV0Response(**response)
+                return StandardResponse[GetRowsV0Response](**response)
             else:
                 return response
         except Exception:
@@ -128,7 +128,7 @@ class SquareDatabaseHelper:
             }
             response = self._make_request("PATCH", endpoint, json=payload)
             if response_as_pydantic:
-                return EditRowsV0Response(**response)
+                return StandardResponse[EditRowsV0Response](**response)
             else:
                 return response
         except Exception:
@@ -154,7 +154,7 @@ class SquareDatabaseHelper:
             }
             response = self._make_request("POST", endpoint, json=payload)
             if response_as_pydantic:
-                return DeleteRowsV0Response(**response)
+                return StandardResponse[DeleteRowsV0Response](**response)
             else:
                 return response
         except Exception:
