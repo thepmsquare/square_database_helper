@@ -1,5 +1,7 @@
 from unittest.mock import patch
 
+from square_commons.api_utils import StandardResponse
+
 from square_database_helper import (
     InsertRowsV0Response,
     GetRowsV0Response,
@@ -64,7 +66,8 @@ def test_insert_rows_v0_builds_correct_payload(
         response_as_pydantic=True,
     )
 
-    assert isinstance(result, InsertRowsV0Response)
+    assert isinstance(result, StandardResponse)
+    assert isinstance(result.data, InsertRowsV0Response)
     assert result.affected_count == 2
     assert result.main == data
 
@@ -95,7 +98,8 @@ def test_get_rows_v0_defaults_and_payload(mock_make_request, helper, dummy_filte
         response_as_pydantic=True,
     )
 
-    assert isinstance(result, GetRowsV0Response)
+    assert isinstance(result, StandardResponse)
+    assert isinstance(result.data, GetRowsV0Response)
     assert result.total_count == 0
     assert result.main == []
 
@@ -135,7 +139,8 @@ def test_get_rows_v0_with_all_arguments(mock_make_request, helper, dummy_filters
         response_as_pydantic=True,
     )
 
-    assert isinstance(result, GetRowsV0Response)
+    assert isinstance(result, StandardResponse)
+    assert isinstance(result.data, GetRowsV0Response)
     assert result.total_count == 1
     assert result.main == data
     mock_make_request.assert_called_once()
@@ -163,7 +168,8 @@ def test_edit_rows_v0_builds_correct_payload(mock_make_request, helper, dummy_fi
         response_as_pydantic=True,
     )
 
-    assert isinstance(result, EditRowsV0Response)
+    assert isinstance(result, StandardResponse)
+    assert isinstance(result.data, EditRowsV0Response)
     assert result.affected_count == 1
     assert result.main == [data]
 
@@ -198,7 +204,8 @@ def test_delete_rows_v0_builds_correct_payload(
         response_as_pydantic=True,
     )
 
-    assert isinstance(result, DeleteRowsV0Response)
+    assert isinstance(result, StandardResponse)
+    assert isinstance(result.data, DeleteRowsV0Response)
     assert result.affected_count == 1
     assert result.main == data
 
