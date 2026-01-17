@@ -1,6 +1,5 @@
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, overload, Literal
 
-from pydantic import conlist
 from square_commons.api_utils import make_request, StandardResponse
 
 from square_database_helper.pydantic_models import (
@@ -44,15 +43,37 @@ class SquareDatabaseHelper:
         except Exception:
             raise
 
+    @overload
     def insert_rows_v0(
         self,
-        data: conlist(Dict[str, Any], min_length=1),
+        data: List[Dict[str, Any]],
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        skip_conflicts: bool = False,
+        response_as_pydantic: Literal[True] = ...,
+    ) -> StandardResponse[InsertRowsV0Response]: ...
+
+    @overload
+    def insert_rows_v0(
+        self,
+        data: List[Dict[str, Any]],
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        skip_conflicts: bool = False,
+        response_as_pydantic: Literal[False] = ...,
+    ) -> Dict[str, Any]: ...
+
+    def insert_rows_v0(
+        self,
+        data: List[Dict[str, Any]],
         database_name: str,
         schema_name: str,
         table_name: str,
         skip_conflicts: bool = False,
         response_as_pydantic: bool = False,
-    ) -> InsertRowsV0Response:
+    ) -> Any:
         try:
             endpoint = "insert_rows/v0"
             payload = {
@@ -70,6 +91,36 @@ class SquareDatabaseHelper:
         except Exception:
             raise
 
+    @overload
+    def get_rows_v0(
+        self,
+        filters: FiltersV0,
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        apply_filters: bool = True,
+        columns: Optional[List[str]] = None,
+        order_by: List[str] = None,
+        limit: Optional[int] = None,
+        offset: int = 0,
+        response_as_pydantic: Literal[True] = ...,
+    ) -> StandardResponse[GetRowsV0Response]: ...
+
+    @overload
+    def get_rows_v0(
+        self,
+        filters: FiltersV0,
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        apply_filters: bool = True,
+        columns: Optional[List[str]] = None,
+        order_by: List[str] = None,
+        limit: Optional[int] = None,
+        offset: int = 0,
+        response_as_pydantic: Literal[False] = ...,
+    ) -> Dict[str, Any]: ...
+
     def get_rows_v0(
         self,
         filters: FiltersV0,
@@ -82,7 +133,7 @@ class SquareDatabaseHelper:
         limit: Optional[int] = None,
         offset: int = 0,
         response_as_pydantic: bool = False,
-    ) -> GetRowsV0Response:
+    ) -> Any:
         if order_by is None:
             order_by = []
         try:
@@ -106,6 +157,30 @@ class SquareDatabaseHelper:
         except Exception:
             raise
 
+    @overload
+    def edit_rows_v0(
+        self,
+        data: Dict[str, Any],
+        filters: FiltersV0,
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        apply_filters: bool = True,
+        response_as_pydantic: Literal[True] = ...,
+    ) -> StandardResponse[EditRowsV0Response]: ...
+
+    @overload
+    def edit_rows_v0(
+        self,
+        data: Dict[str, Any],
+        filters: FiltersV0,
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        apply_filters: bool = True,
+        response_as_pydantic: Literal[False] = ...,
+    ) -> Dict[str, Any]: ...
+
     def edit_rows_v0(
         self,
         data: Dict[str, Any],
@@ -115,7 +190,7 @@ class SquareDatabaseHelper:
         table_name: str,
         apply_filters: bool = True,
         response_as_pydantic: bool = False,
-    ) -> EditRowsV0Response:
+    ) -> Any:
         try:
             endpoint = "edit_rows/v0"
             payload = {
@@ -134,6 +209,28 @@ class SquareDatabaseHelper:
         except Exception:
             raise
 
+    @overload
+    def delete_rows_v0(
+        self,
+        filters: FiltersV0,
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        apply_filters: bool = True,
+        response_as_pydantic: Literal[True] = ...,
+    ) -> StandardResponse[InsertRowsV0Response]: ...
+
+    @overload
+    def delete_rows_v0(
+        self,
+        filters: FiltersV0,
+        database_name: str,
+        schema_name: str,
+        table_name: str,
+        apply_filters: bool = True,
+        response_as_pydantic: Literal[False] = ...,
+    ) -> Dict[str, Any]: ...
+
     def delete_rows_v0(
         self,
         filters: FiltersV0,
@@ -142,7 +239,7 @@ class SquareDatabaseHelper:
         table_name: str,
         apply_filters: bool = True,
         response_as_pydantic: bool = False,
-    ) -> DeleteRowsV0Response:
+    ) -> Any:
         try:
             endpoint = "delete_rows/v0"
             payload = {

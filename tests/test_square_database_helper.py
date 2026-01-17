@@ -53,8 +53,7 @@ def test_insert_rows_v0_builds_correct_payload(
         {"id": 2, "name": "beta"},
     ]
     mock_make_request.return_value = {
-        "affected_count": 2,
-        "main": data,
+        "data": {"affected_count": 2, "main": data},
     }
 
     result = helper.insert_rows_v0(
@@ -68,8 +67,8 @@ def test_insert_rows_v0_builds_correct_payload(
 
     assert isinstance(result, StandardResponse)
     assert isinstance(result.data, InsertRowsV0Response)
-    assert result.affected_count == 2
-    assert result.main == data
+    assert result.data.affected_count == 2
+    assert result.data.main == data
 
     mock_make_request.assert_called_once()
     call_kwargs = mock_make_request.call_args.kwargs
@@ -88,7 +87,7 @@ def test_insert_rows_v0_builds_correct_payload(
 
 @patch("square_database_helper.main.make_request")
 def test_get_rows_v0_defaults_and_payload(mock_make_request, helper, dummy_filters):
-    mock_make_request.return_value = {"main": [], "total_count": 0}
+    mock_make_request.return_value = {"data": {"main": [], "total_count": 0}}
 
     result = helper.get_rows_v0(
         filters=dummy_filters,
@@ -100,8 +99,8 @@ def test_get_rows_v0_defaults_and_payload(mock_make_request, helper, dummy_filte
 
     assert isinstance(result, StandardResponse)
     assert isinstance(result.data, GetRowsV0Response)
-    assert result.total_count == 0
-    assert result.main == []
+    assert result.data.total_count == 0
+    assert result.data.main == []
 
     mock_make_request.assert_called_once()
     call_kwargs = mock_make_request.call_args.kwargs
@@ -124,7 +123,7 @@ def test_get_rows_v0_defaults_and_payload(mock_make_request, helper, dummy_filte
 @patch("square_database_helper.main.make_request")
 def test_get_rows_v0_with_all_arguments(mock_make_request, helper, dummy_filters):
     data = [{"id": 1}]
-    mock_make_request.return_value = {"main": data, "total_count": 1}
+    mock_make_request.return_value = {"data": {"main": data, "total_count": 1}}
 
     result = helper.get_rows_v0(
         filters=dummy_filters,
@@ -141,8 +140,8 @@ def test_get_rows_v0_with_all_arguments(mock_make_request, helper, dummy_filters
 
     assert isinstance(result, StandardResponse)
     assert isinstance(result.data, GetRowsV0Response)
-    assert result.total_count == 1
-    assert result.main == data
+    assert result.data.total_count == 1
+    assert result.data.main == data
     mock_make_request.assert_called_once()
     payload = mock_make_request.call_args.kwargs["json"]
 
@@ -156,7 +155,7 @@ def test_get_rows_v0_with_all_arguments(mock_make_request, helper, dummy_filters
 @patch("square_database_helper.main.make_request")
 def test_edit_rows_v0_builds_correct_payload(mock_make_request, helper, dummy_filters):
     data = {"name": "updated name"}
-    mock_make_request.return_value = {"affected_count": 1, "main": [data]}
+    mock_make_request.return_value = {"data": {"affected_count": 1, "main": [data]}}
 
     result = helper.edit_rows_v0(
         data=data,
@@ -170,8 +169,8 @@ def test_edit_rows_v0_builds_correct_payload(mock_make_request, helper, dummy_fi
 
     assert isinstance(result, StandardResponse)
     assert isinstance(result.data, EditRowsV0Response)
-    assert result.affected_count == 1
-    assert result.main == [data]
+    assert result.data.affected_count == 1
+    assert result.data.main == [data]
 
     mock_make_request.assert_called_once()
     call_kwargs = mock_make_request.call_args.kwargs
@@ -193,7 +192,7 @@ def test_delete_rows_v0_builds_correct_payload(
     mock_make_request, helper, dummy_filters
 ):
     data = [{"id": 1}]
-    mock_make_request.return_value = {"affected_count": 1, "main": data}
+    mock_make_request.return_value = {"data": {"affected_count": 1, "main": data}}
 
     result = helper.delete_rows_v0(
         filters=dummy_filters,
@@ -206,8 +205,8 @@ def test_delete_rows_v0_builds_correct_payload(
 
     assert isinstance(result, StandardResponse)
     assert isinstance(result.data, DeleteRowsV0Response)
-    assert result.affected_count == 1
-    assert result.main == data
+    assert result.data.affected_count == 1
+    assert result.data.main == data
 
     mock_make_request.assert_called_once()
     call_kwargs = mock_make_request.call_args.kwargs

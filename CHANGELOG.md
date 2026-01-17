@@ -1,6 +1,13 @@
 # changelog
 
-## v2.7.0
+## v2.7.1
+
+- bugfix: fix type of data in insert_rows_v0.
+- bugfix: add proper model StandardResponse[*] instead of just * in all helper methods.
+- qol: add overload for proper type hints.
+- update test cases
+
+## v2.7.0 (unstable)
 
 - Add response pydantic models for all helper methods.
 - return pydantic models instead of dict in all api helpers if response_as_pydantic=True.
