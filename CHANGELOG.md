@@ -5,7 +5,7 @@
 - bugfix: fix type of data in insert_rows_v0.
 - bugfix: add proper model StandardResponse[*] instead of just * in all helper methods.
 - qol: add overload for proper type hints.
-- update test cases
+- update test cases.
 
 ## v2.7.0 (unstable)
 
